@@ -1,4 +1,4 @@
-RPAC_And_Workout_Assistant
+RPAC And Workout Assistant
 =======================
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Chulong-Li/RPAC_And_Work_Assistant/blob/master/LICENSE.md)
 
