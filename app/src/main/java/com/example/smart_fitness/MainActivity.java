@@ -1,5 +1,5 @@
 package com.example.smart_fitness;
-// COMMENT
+//COMMENT FOR TRY TO COMMIT
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
