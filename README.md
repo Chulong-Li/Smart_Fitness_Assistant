@@ -9,7 +9,11 @@ Logs
 
 05/16/2019: The beginning of the project.
 
-05/18/2019: Generate the first assistant prototype.
+05/30/2019: Build the basic chat app.
+
+Incoming: Embed the smart chatbot.
+
+Incoming: Enhance the chat UI.
 
 External (Unofficial) Links
 ---------------------------
