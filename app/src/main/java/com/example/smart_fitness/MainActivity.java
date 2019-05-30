@@ -20,8 +20,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements RoomListener {
 
     // replace this with a real channelID from Scaledrone dashboard
-    private String channelID = "D5TG1Rdxqp0gtxQu";
-    private String roomName = "my-room";
+    private String channelID = "fGneqoNRxJlK3M5a";
+    private String roomName = "observable-room";
     private EditText editText;
     private Scaledrone scaledrone;
     private MessageAdapter messageAdapter;
