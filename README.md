@@ -29,3 +29,7 @@ License
 
 This project is licensed under the terms of the MIT license. See [LICENSE](https://github.com/Chulong-Li/RPAC_And_Work_Assistant/blob/master/LICENSE.md) for additional details.
 
+Build Status
+-------
+[![Build Status](https://travis-ci.com/Chulong-Li/RPAC_And_Work_Assistant.svg?branch=master)](https://travis-ci.com/Chulong-Li/RPAC_And_Work_Assistant)
+
