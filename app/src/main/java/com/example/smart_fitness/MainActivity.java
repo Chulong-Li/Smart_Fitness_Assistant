@@ -12,8 +12,6 @@ import com.ibm.watson.assistant.v1.model.MessageInput;
 import com.ibm.watson.assistant.v1.model.MessageOptions;
 import com.ibm.watson.assistant.v1.model.MessageResponse;
 import com.ibm.watson.assistant.v1.Assistant;
-import com.ibm.watson.assistant.v1.model.WorkspaceCollection;
-import com.ibm.watson.assistant.v1.model.ListWorkspacesOptions;
 
 public class MainActivity extends AppCompatActivity{
 
