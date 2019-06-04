@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity{
     private MemberData data = new MemberData("Steve", "#bb0000");
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
