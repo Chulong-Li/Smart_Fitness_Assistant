@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
+    android:background="#0A5EF1"
+    android:gravity="center"
     tools:context=".SplashActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome to \n Samrt Fitneess"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="332dp" />
+        android:text="                     Smart Fitness"
+        android:textSize="25sp"
+        android:textColor="#fff"
+        />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
