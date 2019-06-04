@@ -1,9 +1,12 @@
 language: java
+dist: trusty
 android:
-  before_install:
- - cd $HOME
- - wget https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip -O $HOME/android-sdk.tgz
- - mkdir android
- - unzip android-sdk.tgz -d android/sdk
- - export PATH=$PATH:$HOME/android/sdk/tools:$HOME/android/sdk/tools/bin
- - cd build/Chulong-Li/RPAC_And_Work_Assistant
+  components:
+    - build-tools-26.0.2
+    - android-26
+    - add-on
+    - extra
+  licenses:
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
