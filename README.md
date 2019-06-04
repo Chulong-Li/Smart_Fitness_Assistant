@@ -24,10 +24,12 @@ TO-DO
 4. Travis: Start adding more test cases
 4. Discovery: Attempt to implement in our application
 
-External (Unofficial) Links
+External Links
 ---------------------------
 
 RPAC: https://recsports.osu.edu/facilities/recreation-and-physical-activity-center-rpac
+IBM: https://www.ibm.com/cloud
+ACE Fitness: https://www.acefitness.org
 
 Support
 -------
