@@ -11,9 +11,18 @@ Logs
 
 05/30/2019: Build the basic chat app.
 
-Incoming: Embed the smart chatbot.
+06/04: Embed the smart chatbot.
 
 Incoming: Enhance the chat UI.
+
+TO-DO
+-----
+
+1. UI: Change avatar of the chatbot
+2. UI: Add welcome page (Lauching page)
+3. Assistant: Add more knowledge in our Watson Assistant
+4. Travis: Start adding more test cases
+4. Discovery: Attempt to implement in our application
 
 External (Unofficial) Links
 ---------------------------
