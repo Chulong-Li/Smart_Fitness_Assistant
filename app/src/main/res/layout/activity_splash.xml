@@ -5,17 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#BB0000"
+    android:background="#fff"
 
     android:gravity="center"
     tools:context=".SplashActivity">
 
-    <TextView
-        android:layout_width="185dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Smart Fitness"
-        android:textColor="#fff"
-        android:textSize="25sp" />
 
+    <ImageView
+        android:id="@+id/splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/splash" />
 </RelativeLayout>
