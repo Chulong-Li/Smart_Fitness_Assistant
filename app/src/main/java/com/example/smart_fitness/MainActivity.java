@@ -65,12 +65,12 @@ public class MainActivity extends AppCompatActivity{
 
 
             // Set up
-            IamOptions iamOptions = new IamOptions.Builder().apiKey("APIKEY").build();
+            IamOptions iamOptions = new IamOptions.Builder().apiKey("U-3rEEX7HUmUklltEJc3VkGIBbIk_MMQ-DhBnoKYFV9I").build();
             Assistant service = new Assistant("2019-02-28", iamOptions);
             service.setEndPoint("https://gateway.watsonplatform.net/assistant/api");
 
 
-            String workspaceId = "workspaceId";
+            String workspaceId = "39ad1c75-4ad0-4048-b5a3-ce07240fb471";
 
 
 
