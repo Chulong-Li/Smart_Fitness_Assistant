@@ -6,6 +6,8 @@ import android.view.View;
 
 import org.junit.Test;
 
+import java.math.BigInteger;
+
 import static org.junit.Assert.*;
 
 /**
@@ -18,17 +20,22 @@ public class MessageAdapterTest {
     public void addMessage_Test() {
 
         MessageAdapter messageAdapter = null;
-        ListView messagesView;
 
         MemberData data = new MemberData("Steve", "#bb0000");
 
-        final Message welcome = new Message("Hi, I'm Steve! What can I help you?", data, false);
+        final Message message = new Message("Hi, I'm Steve! What can I help you?", data, true);
 
-        messageAdapter.add(welcome);
+        messageAdapter.add(message);
 
-        int size = (messageAdapter.messages.size()) - 1;
+        int i = (messageAdapter.messages.size()) - 1;
 
-        assertEquals("Hi, I'm Steve! What can I help you?", messageAdapter.messages.get(size));
+        String expected = "Hi, I'm Steve! What can I help you?";
+
+        final Message message2 = messageAdapter.messages.get(i);
+
+        String actual = message2.getText();
+
+        assertEquals("Messages are not the same", expected, actual);
 
     }
 
