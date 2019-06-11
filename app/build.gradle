@@ -30,8 +30,8 @@ android {
 
     // solve duplicate classes
     applicationVariants.all { variant ->
-        variant.getRuntimeConfiguration().exclude group: 'com.google.code.findbugs', module: 'jsr305-3.0.2'
-        variant.getRuntimeConfiguration().exclude group: 'com.google.code.findbugs', module: 'annotations-3.0.1'
+        variant.getRuntimeConfiguration().exclude group: 'com.google.code.findbugs', module: 'jsr305'
+        variant.getRuntimeConfiguration().exclude group: 'com.google.code.findbugs', module: 'annotations'
     }
 }
 
