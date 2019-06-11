@@ -15,23 +15,27 @@ import static org.junit.Assert.*;
  */
 public class MessageAdapterTest {
     @Test
-    public void addMessage_isCorrect() {
+    public void addMessage_Test() {
 
         MessageAdapter messageAdapter = null;
         ListView messagesView;
 
         MemberData data = new MemberData("Steve", "#bb0000");
-        
-        
-        
 
         final Message welcome = new Message("Hi, I'm Steve! What can I help you?", data, false);
 
         messageAdapter.add(welcome);
 
-        int size = messageAdapter.messages.size();
+        int size = (messageAdapter.messages.size()) - 1;
 
         assertEquals("Hi, I'm Steve! What can I help you?", messageAdapter.messages.get(size));
+
+    }
+
+    @Test
+    public void getView_Test() {
+
+
 
     }
 }
