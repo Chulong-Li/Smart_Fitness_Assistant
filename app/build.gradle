@@ -48,7 +48,3 @@ dependencies {
     implementation 'com.ibm.watson.developer_cloud:android-sdk:0.5.0'
     implementation 'gr.pantrif:easy-android-splash-screen:0.0.1'
 }
-
-
-    exclude group: 'com.google.code.findbugs', module: 'jsr305'
-    exclude group: 'com.google.code.findbugs', module: 'annotations'
