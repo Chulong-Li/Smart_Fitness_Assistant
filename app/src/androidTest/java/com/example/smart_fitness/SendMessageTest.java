@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
