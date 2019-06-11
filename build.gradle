@@ -33,3 +33,4 @@ Android {
         variant.getRuntimeConfiguration().exclude group: 'com.google.code.findbugs', module: 'jsr305'
         variant.getRuntimeConfiguration().exclude group: 'com.google.code.findbugs', module: 'annotations'
     }
+}
