@@ -27,10 +27,8 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-Android {
 // solve duplicate classes
     applicationVariants.all { variant ->
         variant.getRuntimeConfiguration().exclude group: 'com.google.code.findbugs', module: 'jsr305'
         variant.getRuntimeConfiguration().exclude group: 'com.google.code.findbugs', module: 'annotations'
     }
-}
