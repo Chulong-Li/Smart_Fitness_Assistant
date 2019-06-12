@@ -20,14 +20,15 @@ import static org.junit.Assert.*;
  */
 public class MessageAdapterTest {
 
-    private MessageAdapter messageAdapter;
-
     @Test
     public void addMessage_Test() {
+        MessageAdapter messageAdapter;
 
         MemberData data = new MemberData("Steve", "#bb0000");
 
         final Message message = new Message("Hi, I'm Steve! What can I help you?", data, true);
+
+        messageAdapter = new MessageAdapter();
 
         messageAdapter.add(message);
 
