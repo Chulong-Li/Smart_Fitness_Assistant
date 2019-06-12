@@ -24,7 +24,7 @@ public class MessageAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    public MessageAdapter() { }
+    public MessageAdapter() { this.context = context; }
 
 
     public void add(Message message) {
