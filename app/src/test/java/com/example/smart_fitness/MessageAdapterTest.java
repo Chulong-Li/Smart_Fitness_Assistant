@@ -22,7 +22,7 @@ public class MessageAdapterTest {
     @Test
     public void addMessage_Test() {
 
-        /*MessageAdapter messageAdapter = null;
+        MessageAdapter messageAdapter = null;
 
         MemberData data = new MemberData("Steve", "#bb0000");
 
@@ -38,7 +38,7 @@ public class MessageAdapterTest {
 
         String actual = message2.getText();
 
-        assertEquals("Messages are not the same", expected, actual);*/
+        assertEquals("Messages are not the same", expected, actual);
 
     }
 
