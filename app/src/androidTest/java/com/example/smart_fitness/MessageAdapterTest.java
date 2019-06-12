@@ -1,24 +1,26 @@
 package com.example.smart_fitness;
 
-import android.app.Activity;
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.view.View;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.math.BigInteger;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.*;
 
 /**
  * Tests message adapter
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
+@RunWith(AndroidJUnit4.class)
 public class MessageAdapterTest {
+
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void addMessage_Test() {
@@ -28,7 +30,9 @@ public class MessageAdapterTest {
 
         final Message message = new Message("Hi, I'm Steve! What can I help you?", data, true);
 
-        messageAdapter = new MessageAdapter();
+        Context context = mActivityRule.getActivity().getBaseContext();
+
+        messageAdapter = new MessageAdapter(context);
 
         messageAdapter.add(message);
 
