@@ -19,10 +19,11 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class MessageAdapterTest {
+
+    private MessageAdapter messageAdapter;
+
     @Test
     public void addMessage_Test() {
-
-        MessageAdapter messageAdapter = null;
 
         MemberData data = new MemberData("Steve", "#bb0000");
 
