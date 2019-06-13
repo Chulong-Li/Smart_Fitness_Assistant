@@ -48,22 +48,23 @@ public class MessageAdapterTest {
 
     }
 
-    @Test
+    /*@Test
     public void getView_Test() {
 
-        /*MessageAdapter messageAdapter = null;
+        Context context = mActivityRule.getActivity().getBaseContext();
 
-        MemberData data = new MemberData("Steve", "#bb0000");
+        int i = 0;
+        View convertView = new View(context);
+        MessageAdapter messageAdapter = new MessageAdapter(context);
+        ViewGroup viewGroup = new ViewGroup(context) {
+            @Override
+            protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
-        final Message message = new Message("Hi, I'm Steve! What can I help you?", data, true);
-
-        messageAdapter.add(message);
-
-        Context context = null;
-
-        MessageViewHolder holder = new MessageViewHolder();
-        LayoutInflater messageInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        Message message = messages.get(i);*/
-
-    }
+            }
+        };
+        Object holder = new MessageViewHolder();
+        convertView = messageAdapter.getView(i, convertView, viewGroup);
+        holder = convertView.getTag();
+        String mess = holder.messageBody.getText();
+    }*/
 }
