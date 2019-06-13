@@ -19,11 +19,14 @@ Incoming: Enhance the chat UI.
 TO-DO
 -----
 
-1. UI: Change avatar of the chatbot
-2. UI: Add welcome page (Lauching page)
-3. Assistant: Add more knowledge in our Watson Assistant
-4. Travis: Start adding more test cases
-4. Discovery: Attempt to implement in our application
+1. Assistant: Add more knowledge in our Watson Assistant
+2. Travis: Pass test cases
+3. Discovery: Attempt to implement in our application
+4. Add more customized personal data records
+5. Add more interactive functions, like nutrition page
+6. Break lengthy text intp step-by-step guide
+7. Add Speech-to-text and Text-to-speech
+
 
 External Links
 ---------------------------
