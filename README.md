@@ -14,7 +14,11 @@ Logs
 
 06/04: Embed the smart chatbot.
 
-Incoming: Enhance the chat UI.
+06/11: Enhanced the chat UI.
+
+Incoming: Enable NLP to make communication.
+
+Incoming: Add exercise database
 
 TO-DO
 -----
