@@ -52,7 +52,7 @@ public class SendMessageTest {
     @Test
     public void randomInputResponseTest() {
 
-        String text = "random message";
+        String text = "what's up?";
 
         if (text.length() > 0) {
 
