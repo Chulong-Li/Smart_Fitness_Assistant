@@ -1,6 +1,8 @@
 package com.example.smart_fitness;
 
+import android.content.Context;
 import android.os.StrictMode;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,12 +15,15 @@ import com.ibm.watson.assistant.v1.model.MessageOptions;
 import com.ibm.watson.assistant.v1.model.MessageResponse;
 import com.ibm.watson.assistant.v1.Assistant;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity{
 
 
     private EditText editText;
     private MessageAdapter messageAdapter;
     private ListView messagesView;
+    TextToSpeech t1;
 
     private MemberData data = new MemberData("Steve", "#bb0000");
 
@@ -85,9 +90,18 @@ public class MainActivity extends AppCompatActivity{
 
             System.out.println(response);
 
-            String response_text = response.getOutput().getGeneric().get(0).getText();
+            final String response_text = response.getOutput().getGeneric().get(0).getText();
 
             System.out.println(response_text);
+
+            t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    t1.setLanguage(Locale.UK);
+                    t1.setSpeechRate((float) 0.5);
+                    t1.speak(response_text, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            });
 
 
             /*
