@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import com.ibm.cloud.sdk.core.service.security.IamOptions;
 import com.ibm.watson.assistant.v1.model.MessageInput;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity{
     private MessageAdapter messageAdapter;
     private ListView messagesView;
     TextToSpeech t1;
+
+    private Switch sw;
 
     private MemberData data = new MemberData("Steve", "#bb0000");
 
@@ -55,6 +58,9 @@ public class MainActivity extends AppCompatActivity{
 
     public void sendMessage(View view) {
         String text = editText.getText().toString();
+
+        sw = (Switch)findViewById(R.id.switch_button);
+
         if (text.length() > 0) {
 
             // We provide a question here!
@@ -94,14 +100,16 @@ public class MainActivity extends AppCompatActivity{
 
             System.out.println(response_text);
 
-            t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                @Override
-                public void onInit(int status) {
-                    t1.setLanguage(Locale.UK);
-                    t1.setSpeechRate((float) 0.5);
-                    t1.speak(response_text, TextToSpeech.QUEUE_FLUSH, null);
-                }
-            });
+            if (sw.isChecked()) {
+                t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        t1.setLanguage(Locale.UK);
+                        t1.setSpeechRate((float) 0.5);
+                        t1.speak(response_text, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                });
+            }
 
 
             /*

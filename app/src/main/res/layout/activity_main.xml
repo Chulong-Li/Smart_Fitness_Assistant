@@ -8,6 +8,18 @@
     android:focusableInTouchMode="true"
     tools:context="com.example.smart_fitness.MainActivity">
 
+    <Switch
+        android:id="@+id/switch_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:switchMinWidth="56dp"
+        android:layout_marginLeft="315dp"
+        android:layout_marginTop="12dp"
+        android:text="Voice"
+        android:checked="false"
+        android:textOff="OFF"
+        android:textOn="ON"/>
+
 
     <ListView
         android:layout_width="match_parent"
