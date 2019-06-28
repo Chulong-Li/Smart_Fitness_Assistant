@@ -18,7 +18,8 @@
         android:text="Voice"
         android:checked="false"
         android:textOff="OFF"
-        android:textOn="ON"/>
+        android:textOn="ON"
+        android:theme="@style/ToggleSwitchTheme"/>
 
 
     <ListView
