@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 repositories {
     maven {
-        url  "https://dl.bintray.com/ibm-cloud-sdks/ibm-cloud-sdk-repo"
+        url "https://dl.bintray.com/ibm-cloud-sdks/ibm-cloud-sdk-repo"
     }
 }
 
@@ -34,7 +34,7 @@ android {
         variant.getRuntimeConfiguration().exclude group: 'com.google.code.findbugs', module: 'annotations'
     }
 
-   
+
 }
 
 dependencies {

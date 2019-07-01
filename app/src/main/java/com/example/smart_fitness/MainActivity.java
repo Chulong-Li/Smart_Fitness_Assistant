@@ -1,14 +1,20 @@
 package com.example.smart_fitness;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.os.StrictMode;
+import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.ibm.cloud.sdk.core.service.security.IamOptions;
 import com.ibm.watson.assistant.v1.model.MessageInput;
@@ -16,6 +22,7 @@ import com.ibm.watson.assistant.v1.model.MessageOptions;
 import com.ibm.watson.assistant.v1.model.MessageResponse;
 import com.ibm.watson.assistant.v1.Assistant;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity{
@@ -29,6 +36,8 @@ public class MainActivity extends AppCompatActivity{
     private Switch sw;
 
     private MemberData data = new MemberData("Steve", "#bb0000");
+
+    private TextToSpeech tts;
 
 
     @Override
@@ -57,6 +66,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void sendMessage(View view) {
+
         String text = editText.getText().toString();
 
         sw = (Switch)findViewById(R.id.switch_button);
@@ -111,7 +121,6 @@ public class MainActivity extends AppCompatActivity{
                 });
             }
 
-
             /*
             // Response by IBM Watson Assistant
 
@@ -156,6 +165,7 @@ public class MainActivity extends AppCompatActivity{
             });
         }
     }
+
 }
 
 class MemberData {
