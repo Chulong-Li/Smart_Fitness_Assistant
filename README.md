@@ -16,21 +16,19 @@ Logs
 
 06/11: Enhanced the chat UI.
 
-Incoming: Enable NLP to make communication.
+06/20: Added exercise database
 
-Incoming: Add exercise database
+07/06: Enable the Voice Mode
+
+Incoming: Use NLP to provide step-by-step guide.
 
 TO-DO
 -----
 
-1. Assistant: Add more knowledge in our Watson Assistant
-2. Travis: Pass test cases
-3. Discovery: Attempt to implement in our application
-4. Add more customized personal data records
-5. Add more interactive functions, like nutrition page
-6. Break lengthy text intp step-by-step guide
-7. Add Speech-to-text and Text-to-speech
-
+1. Discovery: Attempt to implement in our application
+2. Add more customized personal data records
+3. Break lengthy text intp step-by-step guide
+4. Travis: Pass test cases
 
 External Links
 ---------------------------
