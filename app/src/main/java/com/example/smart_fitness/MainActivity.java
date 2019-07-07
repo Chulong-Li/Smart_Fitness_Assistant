@@ -159,16 +159,12 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                     microphoneHelper.closeInputStream();
+                    sendMessage(null);
+                    editText.getText().clear();
                     listening = false;
                 }
             }
         });
-
-
-
-    }
-
-    public void sendMessage(View view) {
 
         // Voice Mode Enable Button
         sw = (Switch)findViewById(R.id.switch_button);
@@ -186,11 +182,11 @@ public class MainActivity extends AppCompatActivity{
             */
             speechService.recognizeUsingWebSocket(getRecognizeOptions(capture),
                     new MicrophoneRecognizeDelegate());
-
-
         }
 
+    }
 
+    public void sendMessage(View view) {
 
         text = editText.getText().toString();
 
@@ -205,6 +201,7 @@ public class MainActivity extends AppCompatActivity{
                     messagesView.setSelection(messagesView.getCount() - 1);
                 }
             });
+
             editText.getText().clear();
 
             // Set up Assistant
@@ -261,7 +258,7 @@ public class MainActivity extends AppCompatActivity{
 
 
             // Return the text response
-            final Message response1 = new Message(response_text, data, false);
+            final Message response1 = new Message(result, data, false);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -292,7 +289,6 @@ public class MainActivity extends AppCompatActivity{
         }
 
     }
-
 
     private Assistant initAssistantService() {
         IamOptions iamOptions = new IamOptions.Builder()
@@ -331,7 +327,7 @@ public class MainActivity extends AppCompatActivity{
                 .contentType(ContentType.OPUS.toString())
                 .model("en-US_BroadbandModel")
                 .interimResults(true)
-                .inactivityTimeout(3)
+                .inactivityTimeout(30)
                 .build();
     }
 
@@ -349,7 +345,7 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public void onDisconnected() {
-            //Thread.currentThread().interrupt();
+            microphoneHelper.closeInputStream();
         }
 
     }
