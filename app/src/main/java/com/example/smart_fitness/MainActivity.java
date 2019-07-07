@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity{
         // Voice Mode Enable Button
         sw = (Switch)findViewById(R.id.switch_button);
 
-        if (sw.isChecked()) {
+        if (false && sw.isChecked()) {
             // record PCM data and encode it with the ogg codec
             capture = microphoneHelper.getInputStream(true);
             /*
