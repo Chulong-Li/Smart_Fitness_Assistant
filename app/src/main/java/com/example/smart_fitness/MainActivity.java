@@ -22,6 +22,10 @@ import com.ibm.watson.assistant.v1.model.MessageOptions;
 import com.ibm.watson.assistant.v1.model.MessageResponse;
 import com.ibm.watson.assistant.v1.Assistant;
 
+import com.ibm.watson.discovery.v1.Discovery;
+import com.ibm.watson.discovery.v1.model.QueryOptions;
+import com.ibm.watson.discovery.v1.model.QueryResponse;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -47,12 +51,6 @@ import com.ibm.watson.developer_cloud.android.library.audio.MicrophoneHelper;
 import com.ibm.watson.developer_cloud.android.library.audio.MicrophoneInputStream;
 import com.ibm.watson.developer_cloud.android.library.audio.StreamPlayer;
 import com.ibm.watson.developer_cloud.android.library.audio.utils.ContentType;
-import com.ibm.watson.developer_cloud.android.library.camera.CameraHelper;
-import com.ibm.watson.developer_cloud.android.library.camera.GalleryHelper;
-import com.ibm.watson.developer_cloud.language_translator.v3.LanguageTranslator;
-import com.ibm.watson.developer_cloud.language_translator.v3.model.TranslateOptions;
-import com.ibm.watson.developer_cloud.language_translator.v3.model.TranslationResult;
-import com.ibm.watson.developer_cloud.language_translator.v3.util.Language;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechRecognitionResults;
@@ -62,6 +60,17 @@ import com.ibm.watson.developer_cloud.text_to_speech.v1.model.SynthesizeOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+
+import android.os.StrictMode;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
+
+
+
 
 
 public class MainActivity extends AppCompatActivity{
@@ -78,9 +87,13 @@ public class MainActivity extends AppCompatActivity{
     private TextToSpeech textService;
     private MicrophoneHelper microphoneHelper;
     private SpeechToText speechService;
+    private Assistant assistantService;
     private MicrophoneInputStream capture;
     private ImageButton mic;
     private boolean listening = false;
+    private String result;
+    private MessageResponse response;
+    private String text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +108,8 @@ public class MainActivity extends AppCompatActivity{
         textService = initTextToSpeechService();
         microphoneHelper = new MicrophoneHelper(this);
         speechService = initSpeechToTextService();
+        assistantService = initAssistantService();
+
         mic = findViewById(R.id.mic);
 
         final Message welcome = new Message("Hi, I'm Steve! What can I help you?", data, false);
@@ -150,6 +165,7 @@ public class MainActivity extends AppCompatActivity{
         });
 
 
+
     }
 
     public void sendMessage(View view) {
@@ -160,18 +176,23 @@ public class MainActivity extends AppCompatActivity{
         if (sw.isChecked()) {
             // record PCM data and encode it with the ogg codec
             capture = microphoneHelper.getInputStream(true);
-
+            /*
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    speechService.recognizeUsingWebSocket(getRecognizeOptions(capture),
-                            new MicrophoneRecognizeDelegate());
 
                 }
             });
+            */
+            speechService.recognizeUsingWebSocket(getRecognizeOptions(capture),
+                    new MicrophoneRecognizeDelegate());
+
+
         }
 
-        String text = editText.getText().toString();
+
+
+        text = editText.getText().toString();
 
         if (text.length() > 0) {
 
@@ -186,24 +207,57 @@ public class MainActivity extends AppCompatActivity{
             });
             editText.getText().clear();
 
-            // Set up
-            IamOptions iamOptions = new IamOptions.Builder().apiKey(getString(R.string.assistant_apikey)).build();
-            Assistant service = new Assistant("2019-02-28", iamOptions);
-            service.setEndPoint(getString(R.string.assistant_url));
+            // Set up Assistant
 
-            String workspaceId = getString(R.string.assistant_workspaceId);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MessageInput input = new MessageInput();
+                    input.setText(text);
+                    MessageOptions options = new MessageOptions.Builder(getString(R.string.assistant_workspaceId))
+                            .input(input)
+                            .build();
 
-            MessageInput input = new MessageInput();
-            input.setText(text);
+                    response = assistantService.message(options).execute().getResult();
 
-            MessageOptions options = new MessageOptions.Builder(workspaceId)
-                    .input(input)
-                    .build();
+                }
+            });
 
-            MessageResponse response = service.message(options).execute().getResult();
+
+
             final String response_text = response.getOutput().getGeneric().get(0).getText();
 
             System.out.println(response_text);
+
+            // Set up Discovery
+
+            IamOptions option = new IamOptions.Builder()
+                    .apiKey(getString(R.string.discovery_apikey))
+                    .build();
+
+            Discovery discovery = new Discovery("2019-04-30", option);
+
+            String environmentId = getString(R.string.discovery_environmentId);
+            String collectionId = getString(R.string.discovery_collectionId);
+
+            QueryOptions.Builder queryBuilder = new QueryOptions.Builder(environmentId, collectionId);
+            queryBuilder.deduplicate(true);
+            queryBuilder.passagesCharacters(700);
+            queryBuilder.returnFields("Guide");
+            queryBuilder.query("Name:\"" + text + "\"");
+
+            QueryResponse queryResponse = discovery.query(queryBuilder.build()).execute().getResult();
+
+
+            // The final result text to response
+
+            if (!queryResponse.getPassages().isEmpty()) {
+                result = queryResponse.getResults().get(0).get("Guide").toString();
+            } else {
+                result = response.getOutput().getGeneric().get(0).getText();;
+            }
+
+
 
 
             // Return the text response
@@ -223,7 +277,7 @@ public class MainActivity extends AppCompatActivity{
                     @Override
                     public void run() {
                         SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder()
-                                .text(response_text)
+                                .text(result)
                                 .accept(SynthesizeOptions.Accept.AUDIO_WAV) // specifying that we want a WAV file
                                 .build();
                         InputStream streamResult = textService.synthesize(synthesizeOptions).execute();
@@ -237,6 +291,16 @@ public class MainActivity extends AppCompatActivity{
 
         }
 
+    }
+
+
+    private Assistant initAssistantService() {
+        IamOptions iamOptions = new IamOptions.Builder()
+                .apiKey(getString(R.string.assistant_apikey))
+                .build();
+        Assistant service = new Assistant("2019-02-28", iamOptions);
+        service.setEndPoint(getString(R.string.assistant_url));
+        return service;
     }
 
 
@@ -259,15 +323,19 @@ public class MainActivity extends AppCompatActivity{
         return service;
     }
 
+
+
     private RecognizeOptions getRecognizeOptions(InputStream captureStream) {
         return new RecognizeOptions.Builder()
                 .audio(captureStream)
                 .contentType(ContentType.OPUS.toString())
                 .model("en-US_BroadbandModel")
                 .interimResults(true)
-                .inactivityTimeout(2000)
+                .inactivityTimeout(3)
                 .build();
     }
+
+
 
     private class MicrophoneRecognizeDelegate extends BaseRecognizeCallback {
         @Override
@@ -277,6 +345,11 @@ public class MainActivity extends AppCompatActivity{
                 String text = speechResults.getResults().get(0).getAlternatives().get(0).getTranscript();
                 showMicText(text);
             }
+        }
+
+        @Override
+        public void onDisconnected() {
+            //Thread.currentThread().interrupt();
         }
 
     }
