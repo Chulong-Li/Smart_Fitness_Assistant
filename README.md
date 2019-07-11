@@ -1,9 +1,9 @@
-RPAC And Workout Assistant
+Smart Fitness Assistant
 =======================
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Chulong-Li/RPAC_And_Work_Assistant/blob/master/LICENSE.md)
 [![Build Status](https://travis-ci.com/Chulong-Li/RPAC_And_Work_Assistant.svg?branch=master)](https://travis-ci.com/Chulong-Li/RPAC_And_Work_Assistant)
 
-Smart Fitness Assistant (aka. RPAC & Workout Assistant) is a persional trainer virtual assistant on Android based on IBM Waston Assistant, Discovery, Speech-to-Text, and Text-to-Speech. It uses real-time conversation mode to provide users with daily information about RPAC and step-by-step guide for exercise. Note: Recreation and Physical Activity Center (RPAC) is the largest gym in The Ohio State University.
+Smart Fitness Assistant is a persional trainer virtual assistant on Android based on IBM Waston Assistant, Discovery, Speech-to-Text, and Text-to-Speech. It uses real-time conversation mode to provide users with daily information about RPAC and step-by-step guide for exercise. Note: Recreation and Physical Activity Center (RPAC) is the largest gym in The Ohio State University.
 
 Logs
 ---
