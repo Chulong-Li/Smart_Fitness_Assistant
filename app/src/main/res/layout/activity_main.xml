@@ -13,7 +13,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
+        android:background="#99CCFF"
         android:orientation="horizontal">
 
         <Switch
@@ -35,7 +35,6 @@
         android:layout_weight="2"
         android:divider="#fff"
         android:layout_height="wrap_content"
-        android:background="@drawable/background1"
         />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -60,11 +59,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:scaleType="fitCenter"
-            android:padding="20dp"
             android:layout_marginHorizontal="10dp"
             android:background="@drawable/ic_send_black_24dp"
-            android:onClick="sendMessage"/>
+            android:onClick="sendMessage"
+            android:padding="20dp"
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/mic"

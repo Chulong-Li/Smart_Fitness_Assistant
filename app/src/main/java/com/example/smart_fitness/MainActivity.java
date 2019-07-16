@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setBackgroundDrawableResource(R.drawable.background1);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
