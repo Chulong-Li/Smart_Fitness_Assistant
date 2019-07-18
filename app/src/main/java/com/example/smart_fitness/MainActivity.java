@@ -130,8 +130,16 @@ public class MainActivity extends AppCompatActivity{
 
 
         // Voice Mode Enable Button
-        sw = (Switch)findViewById(R.id.switch_button);
 
+
+
+    }
+
+    public void sendMessage(View view) {
+
+        text = editText.getText().toString();
+
+        sw = (Switch)findViewById(R.id.switch_button);
 
         if (false && sw.isChecked()) {
             // record PCM data and encode it with the ogg codec
@@ -152,14 +160,6 @@ public class MainActivity extends AppCompatActivity{
         }
 
 
-    }
-
-    public void sendMessage(View view) {
-
-        text = editText.getText().toString();
-
-
-
 
         if (text.length() > 0) {
 
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             });
 
-            editText.getText().clear();
+            //editText.getText().clear();
 
 
 
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity{
 
 
             // Make some voice if Voice Mode is enable
-            if (sw.isChecked()) {
+            if (false && sw.isChecked()) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity{
                 .contentType(ContentType.OPUS.toString())
                 .model("en-US_BroadbandModel")
                 .interimResults(true)
-                .inactivityTimeout(30)
+                .inactivityTimeout(30000)
                 .build();
     }
 
@@ -318,6 +318,12 @@ public class MainActivity extends AppCompatActivity{
             if (speechResults.getResults() != null && !speechResults.getResults().isEmpty()) {
                 String text = speechResults.getResults().get(0).getAlternatives().get(0).getTranscript();
                 showMicText(text);
+
+                Boolean final_result = speechResults.getResults().get(0).isFinalResults();
+                System.out.println("================================= " + final_result);
+                if (text.toLowerCase().indexOf("hi steve") != -1 && final_result) {
+                    sendText(text);
+                }
             }
         }
 
@@ -332,6 +338,15 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void run() {
                 editText.setText(text);
+            }
+        });
+    }
+
+    private void sendText(final String text) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                sendMessage(null);
             }
         });
     }
