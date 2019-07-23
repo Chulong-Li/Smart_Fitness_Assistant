@@ -49,9 +49,9 @@
             android:layout_weight="2"
             android:ems="10"
             android:hint="Write a message"
-            android:inputType="text"
             android:paddingHorizontal="10dp"
-            android:text="" />
+            android:text=""
+            android:inputType="text"/>
 
         <ImageButton
             android:id="@+id/send_button"

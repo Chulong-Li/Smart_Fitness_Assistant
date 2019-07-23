@@ -3,12 +3,17 @@ package com.example.smart_fitness;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.ImageButton;
 import android.graphics.Color;
+import android.widget.TextView;
+
 import java.io.InputStream;
 import com.ibm.cloud.sdk.core.service.security.IamOptions;
 
@@ -56,6 +61,15 @@ public class MainActivity extends AppCompatActivity{
     private static String result;
     private MessageResponse response;
     private String text;
+
+
+    String last_text = "";
+    String[] array_of_steps = {};
+    public int mIfCounter = 0;
+    public int mIfCounter2 = 0;
+    public TextView mViewLabel;
+    int size;
+    String s2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,8 +149,7 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    public void sendMessage(View view) {
-
+    public void sendMessage(final View view) {
         text = editText.getText().toString();
 
         sw = (Switch)findViewById(R.id.switch_button);
@@ -213,7 +226,7 @@ public class MainActivity extends AppCompatActivity{
             QueryOptions.Builder queryBuilder = new QueryOptions.Builder(environmentId, collectionId);
             queryBuilder.deduplicate(true);
             queryBuilder.passagesCharacters(700);
-            queryBuilder.returnFields("Guide");
+            queryBuilder.returnFields("Name , Guide");
             queryBuilder.query("Name:\"" + text + "\"");
 
             QueryResponse queryResponse = discovery.query(queryBuilder.build()).execute().getResult();
@@ -222,51 +235,218 @@ public class MainActivity extends AppCompatActivity{
             // The final result text to response
 
             if (!queryResponse.getPassages().isEmpty()) {
-                result = queryResponse.getResults().get(0).get("Guide").toString();
+                if ( queryResponse.getResults().get(0).get("Name").toString().toLowerCase().equals(text.toLowerCase()) ) {
+                    result = queryResponse.getResults().get(0).get("Guide").toString();
+                }
+
+                else
+                {
+                    if (queryResponse.getMatchingResults() == 1)
+                    {
+                        result = "Sorry, do you mean: " + queryResponse.getResults().get(0).get("Name").toString() + " ?";
+                    }
+
+                    else if (queryResponse.getMatchingResults() == 2)
+                    {
+                        result = "Sorry, do you mean: " + queryResponse.getResults().get(0).get("Name").toString() + " or "
+                                + queryResponse.getResults().get(1).get("Name").toString() + " ?";
+                    }
+
+                    else
+                    {
+                        result = "I'm sorry, do you mean: \n" + "1) " + queryResponse.getResults().get(0).get("Name").toString() + "\n"
+                                + "2) " + queryResponse.getResults().get(1).get("Name").toString() + "\n" +
+                                "3) " + queryResponse.getResults().get(2).get("Name").toString() + "\n" + "or something else? ";
+                    }
+                }
+
             } else {
                 result = response.getOutput().getGeneric().get(0).getText();;
             }
 
+            if ((result.contains("Sorry")) || (result.contains("sorry"))) {
+                array_of_steps[0] = result;
+            }
 
+            else {
+                array_of_steps = result.split("[0-9][.]", 50);
+            }
 
+            size = array_of_steps.length;
 
-            // Return the text response
-            final Message response1 = new Message(result, data, false);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    messageAdapter.add(response1);
-                    messagesView.setSelection(messagesView.getCount() - 1);
+            // case where it's the first response step
+            if (mIfCounter == 0) {
+                result = array_of_steps[mIfCounter];
+
+                // replace "Steps" with directional message (if string contains "Steps : "
+                if (result.contains("Steps :")) {
+                    String result2 = result.replace("Steps :", "Type next for the Steps :");
+                    result = result2;
                 }
-            });
 
-
-            // Make some voice if Voice Mode is enable
-            if (false && sw.isChecked()) {
-                new Thread(new Runnable() {
+                // Return the text response
+                final Message response1 = new Message(result, data, false);
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder()
-                                    .text(result)
-                                    .accept(SynthesizeOptions.Accept.AUDIO_WAV) // specifying that we want a WAV file
-                                    .build();
-                            InputStream streamResult = textService.synthesize(synthesizeOptions).execute();
+                        messageAdapter.add(response1);
+                        messagesView.setSelection(messagesView.getCount() - 1);
+                    }
+                });
 
-                            StreamPlayer player = new StreamPlayer();
-                            player.playStream(streamResult); // should work like a charm
-                        } catch (Exception e) {
+                // case where there are more steps (messages) to be sent
+                if (size > 1) {
+                    // special case - "how do i get there?" response
+                    if (result.contains("John")) {
+                        size = 1;
+                        editText.getText().clear();
+                    }
 
+                    else {
+                        mIfCounter++;
+                        editText.getText().clear();
+                    }
+
+                }
+                else {
+                    editText.getText().clear();
+                }
+
+                // Make some voice if Voice Mode is enable
+                if (sw.isChecked()) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder()
+                                        .text(result)
+                                        .accept(SynthesizeOptions.Accept.AUDIO_WAV) // specifying that we want a WAV file
+                                        .build();
+                                InputStream streamResult = textService.synthesize(synthesizeOptions).execute();
+
+                                StreamPlayer player = new StreamPlayer();
+                                player.playStream(streamResult); // should work like a charm
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    }).start();
+
+
+                }
+            }
+
+            //case where there is more than 1 response
+            if (size > 1) {
+                editText.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    //text = editText.getText().toString();
+
+                        s2 = s.toString().replaceAll("\\s+", "");
+
+                        if(s2.length() == 4) {
+                            // case where we haven't reached end of the responses
+                            if (mIfCounter < array_of_steps.length) {
+
+                                result = array_of_steps[mIfCounter];
+
+                                // replace "Steps" with directional message
+                                if (result.contains("Steps :")) {
+                                    String result2 = result.replace("Steps :", "Type next for the Steps :");
+                                    result = result2;
+                                }
+
+                                // replace "Tips" with directional message
+                                if (result.contains("Tips :")) {
+                                    String result2 = result.replace("Tips :", "Type next for some Tips :");
+                                    result = result2;
+                                }
+
+                                // case where it's not the first step/messages
+                                if (mIfCounter > 0) {
+                                    int j = mIfCounter;
+                                    String res = Integer.toString(j);
+                                    result = res + result;
+                                }
+
+                                // Return the text response
+                                final Message response1 = new Message(result, data, false);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        messageAdapter.add(response1);
+                                        messagesView.setSelection(messagesView.getCount() - 1);
+                                    }
+                                });
+
+                                // Make some voice if Voice Mode is enable
+                                if (sw.isChecked()) {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder()
+                                                        .text(result)
+                                                        .accept(SynthesizeOptions.Accept.AUDIO_WAV) // specifying that we want a WAV file
+                                                        .build();
+                                                InputStream streamResult = textService.synthesize(synthesizeOptions).execute();
+
+                                                StreamPlayer player = new StreamPlayer();
+                                                player.playStream(streamResult); // should work like a charm
+                                            } catch (Exception e) {
+
+                                            }
+                                        }
+                                    }).start();
+                                }
+                                editText.getText().clear();
+
+                                mIfCounter++;
+
+                                //sendMessage(view);
+                            }
+                            else {
+                                result = "DONE";
+
+                                // Return the "done" message
+                                final Message response1 = new Message(result, data, false);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        messageAdapter.add(response1);
+                                        messagesView.setSelection(messagesView.getCount() - 1);
+                                    }
+                                });
+
+                                mIfCounter = 0;
+                                editText.getText().clear();
+
+                                editText.removeTextChangedListener(this);
+                            }
                         }
                     }
-                }).start();
-
-
+                });
             }
 
         }
 
     }
+
+
+
 
     private Assistant initAssistantService() {
         IamOptions iamOptions = new IamOptions.Builder()
