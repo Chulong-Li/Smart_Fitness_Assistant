@@ -12,19 +12,19 @@ Logs
 
 05/30/2019: Build the basic chat app.
 
-06/04: Embed the smart chatbot.
+06/04/2019: Embed the smart chatbot.
 
-06/11: Enhanced the chat UI.
+06/11/2019: Enhanced the chat UI.
 
-06/20: Added exercise database
+06/20/2019: Added exercise database
 
-07/06: Enabled the Voice Mode
+07/06/2019: Enabled the Voice Mode
 
-07/17: Built the wake word "Hi Steve"
+07/17/2019: Built the wake word "Hi Steve"
 
-07/23: Separated long guides to provide step-by-step guide.
+07/23/2019: Separated long guides to provide step-by-step guide.
 
-07/25: Final presentation to clients
+07/25/2019: Final presentation to clients
 
 External Links
 ---------------------------
