@@ -13,6 +13,9 @@ import android.widget.Switch;
 import android.widget.ImageButton;
 import android.graphics.Color;
 import android.widget.TextView;
+import android.widget.TextView;
+import android.widget.Switch;
+import android.widget.CompoundButton;
 
 import java.io.InputStream;
 import com.ibm.cloud.sdk.core.service.security.IamOptions;
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity{
         speechService = initSpeechToTextService();
         assistantService = initAssistantService();
 
-        mic = findViewById(R.id.mic);
+        //mic = findViewById(R.id.mic);
 
         final Message welcome = new Message("Hi, I'm Steve! What can I help you?", data, false);
         runOnUiThread(new Runnable() {
@@ -100,6 +103,7 @@ public class MainActivity extends AppCompatActivity{
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        /*
 
         mic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,37 +145,49 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
-
+        */
 
         // Voice Mode Enable Button
+        Switch sButton = (Switch) findViewById(R.id.switch_button);
 
+        //Set a CheckedChange Listener for Switch Button
+        sButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton cb, boolean on){
+                if(on) {
+                    // record PCM data and encode it with the ogg codec
 
+                    capture = microphoneHelper.getInputStream(true);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                speechService.recognizeUsingWebSocket(getRecognizeOptions(capture),
+                                        new MicrophoneRecognizeDelegate());
+                            } catch (Exception e) {
 
+                            }
+                        }
+                    }).start();
+                    listening = true;
+                } else {
+                    if (listening) {
+                        microphoneHelper.closeInputStream();
+                        sendMessage(null);
+                        editText.getText().clear();
+                        listening = false;
+                    }
+                }
+            }
+        });
     }
+
+
 
     public void sendMessage(final View view) {
         text = editText.getText().toString();
 
         sw = (Switch)findViewById(R.id.switch_button);
-
-        if (false && sw.isChecked()) {
-            // record PCM data and encode it with the ogg codec
-
-            capture = microphoneHelper.getInputStream(true);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        speechService.recognizeUsingWebSocket(getRecognizeOptions(capture),
-                                new MicrophoneRecognizeDelegate());
-                    } catch (Exception e) {
-
-                    }
-                }
-            }).start();
-
-        }
-
 
 
         if (text.length() > 0) {
@@ -243,18 +259,18 @@ public class MainActivity extends AppCompatActivity{
                 {
                     if (queryResponse.getMatchingResults() == 1)
                     {
-                        result = "Sorry, do you mean: " + queryResponse.getResults().get(0).get("Name").toString() + " ?";
+                        result = "Yes. Here is the exercise guide we can provide: " + queryResponse.getResults().get(0).get("Name").toString() + " ?";
                     }
 
                     else if (queryResponse.getMatchingResults() == 2)
                     {
-                        result = "Sorry, do you mean: " + queryResponse.getResults().get(0).get("Name").toString() + " or "
+                        result = "Yes. Here are some exercise guides we can provide: " + queryResponse.getResults().get(0).get("Name").toString() + " or "
                                 + queryResponse.getResults().get(1).get("Name").toString() + " ?";
                     }
 
                     else
                     {
-                        result = "I'm sorry, do you mean: \n" + "1) " + queryResponse.getResults().get(0).get("Name").toString() + "\n"
+                        result = "Yes. Here are some exercise guides we can provide: \n" + "1) " + queryResponse.getResults().get(0).get("Name").toString() + "\n"
                                 + "2) " + queryResponse.getResults().get(1).get("Name").toString() + "\n" +
                                 "3) " + queryResponse.getResults().get(2).get("Name").toString() + "\n" + "or something else? ";
                     }
@@ -264,12 +280,21 @@ public class MainActivity extends AppCompatActivity{
                 result = response.getOutput().getGeneric().get(0).getText();;
             }
 
-            if ((result.contains("Sorry")) || (result.contains("sorry"))) {
+            if (result.contains("exercise guide")) {
                 array_of_steps[0] = result;
             }
 
             else {
                 array_of_steps = result.split("[0-9][.]", 50);
+                for (int i = 0; i< array_of_steps.length; i++) {
+                    System.out.println(array_of_steps[i]);
+                    // If there are some newlines at the end, then remove them.
+                    if (array_of_steps[i].indexOf('\n') != -1) {
+                        int l = array_of_steps[i].length();
+                        array_of_steps[i] = array_of_steps[i].substring(0, (l - 3));
+                    }
+                }
+
             }
 
             size = array_of_steps.length;
@@ -280,7 +305,8 @@ public class MainActivity extends AppCompatActivity{
 
                 // replace "Steps" with directional message (if string contains "Steps : "
                 if (result.contains("Steps :")) {
-                    String result2 = result.replace("Steps :", "Type next for the Steps :");
+                    //String result2 = result.replace("Steps :", "Type next for the Steps :");
+                    String result2 = "Type NEXT for the steps: ";
                     result = result2;
                 }
 
@@ -365,18 +391,20 @@ public class MainActivity extends AppCompatActivity{
 
                                 // replace "Steps" with directional message
                                 if (result.contains("Steps :")) {
-                                    String result2 = result.replace("Steps :", "Type next for the Steps :");
+                                    //String result2 = result.replace("Steps :", "Type next for the Steps :");
+                                    String result2 = "Type NEXT for the steps: ";
                                     result = result2;
                                 }
 
                                 // replace "Tips" with directional message
                                 if (result.contains("Tips :")) {
-                                    String result2 = result.replace("Tips :", "Type next for some Tips :");
+                                    //String result2 = result.replace("Tips :", "Type next for some Tips :");
+                                    String result2 = "Type NEXT for some tips: ";
                                     result = result2;
                                 }
 
                                 // case where it's not the first step/messages
-                                if (mIfCounter > 0) {
+                                if (mIfCounter > 0 && !result.contains("tips")) {
                                     int j = mIfCounter;
                                     String res = Integer.toString(j);
                                     result = res + result;
@@ -501,7 +529,7 @@ public class MainActivity extends AppCompatActivity{
 
                 Boolean final_result = speechResults.getResults().get(0).isFinalResults();
                 System.out.println("================================= " + final_result);
-                if (text.toLowerCase().indexOf("hi steve") != -1 && final_result) {
+                if ((text.toLowerCase().indexOf("hi steve") != -1 || text.toLowerCase().indexOf("please") != -1 )&& final_result) {
                     sendText(text);
                 }
             }

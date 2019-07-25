@@ -25,6 +25,7 @@
             android:textOn="ON"
             android:theme="@style/ToggleSwitchTheme" />
 
+
     </LinearLayout>
 
 
@@ -63,13 +64,13 @@
             android:layout_marginHorizontal="10dp"
             android:background="@drawable/ic_send_black_24dp"
             android:onClick="sendMessage"/>
-
+        <!--
         <ImageButton
             android:id="@+id/mic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_mic"
             android:contentDescription="microphone" />
-
-    </LinearLayout>
+        -->
+</LinearLayout>
 </LinearLayout>
