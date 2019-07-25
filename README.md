@@ -18,17 +18,13 @@ Logs
 
 06/20: Added exercise database
 
-07/06: Enable the Voice Mode
+07/06: Enabled the Voice Mode
 
-Incoming: Use NLP to provide step-by-step guide.
+07/17: Built the wake word "Hi Steve"
 
-TO-DO
------
+07/23: Separated long guides to provide step-by-step guide.
 
-1. Discovery: Attempt to implement in our application
-2. Add more customized personal data records
-3. Break lengthy text intp step-by-step guide
-4. Travis: Pass test cases
+07/25: Final presentation to clients
 
 External Links
 ---------------------------
