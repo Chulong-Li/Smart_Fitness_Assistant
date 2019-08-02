@@ -24,7 +24,7 @@ Logs
 
 07/23/2019: Separated long guides to provide step-by-step guide.
 
-07/25/2019: Final presentation to clients
+07/25/2019: Final presentation to clients 
 
 External Links
 ---------------------------
